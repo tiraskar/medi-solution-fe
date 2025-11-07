@@ -1,42 +1,65 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import persistReducer from "redux-persist/es/persistReducer";
 import persistStore from "redux-persist/es/persistStore";
-// import storage from "redux-persist/lib/storage"; ❌ no longer needed
 import {
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from 'redux-persist';
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
 
 // reducers
 import authReducer from "./slices/authSlice";
+import doctorReducer from "./slices/doctorSlice"; // ✅ different name
+import patientReducer from "./slices/patientSlice";
+import categoryReducer from "./slices/categorySlice";
+import masterReducer from "./slices/masterSlice";
+import accountingReducer from "./slices/accountingSlice";
+import userReducer from "./slices/usersSlice";
+import billingTitleReducer from "./slices/billingTitleSlice";
+import vehicleReducer from "./slices/vehicleSlice";
+import vehicleInvoiceReducer from "./slices/vehicleInvoiceSlice";
+import cashInvoiceReducer from "./slices/cashInvoiceSlice";
+import vehicleExpiryReportReducer from "./slices/vehicleExpiryReportSlice";
+import renewalReminderReducer from "./slices/renewalReminderSlice";
 
 // 👉 custom storage wrapper
 import storageWithMidnightExpiry from "./storageWithMidnightExpiry";
 
 const authPersistConfig = {
-    key: 'auth',
-    storage: storageWithMidnightExpiry, // ✅ swapped storage
+  key: "auth",
+  storage: storageWithMidnightExpiry,
 };
 
 const persistedAuthReducer = persistReducer(authPersistConfig, authReducer);
 
 const rootReducer = combineReducers({
-    auth: persistedAuthReducer,
+  auth: persistedAuthReducer,
+  doctor: doctorReducer, // ✅ added doctor slice here
+  patient: patientReducer, // ✅ added doctor slice here
+  category: categoryReducer,
+  master: masterReducer,
+  accounting: accountingReducer,
+  users: userReducer,
+  billingTitle: billingTitleReducer,
+  vehicle: vehicleReducer,
+  vehicleInvoice: vehicleInvoiceReducer,
+  cashInvoice: cashInvoiceReducer,
+  vehicleExpiryReport: vehicleExpiryReportReducer,
+  renewalReminder: renewalReminderReducer,
 });
 
 const store = configureStore({
-    reducer: rootReducer,
-    middleware: (getDefaultMiddleware) =>
-        getDefaultMiddleware({
-            serializableCheck: {
-                ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-                ignoredPaths: ['register'],
-            },
-        }),
+  reducer: rootReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredPaths: ["register"],
+      },
+    }),
 });
 
 const persistor = persistStore(store);

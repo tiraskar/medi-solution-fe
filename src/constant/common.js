@@ -10,6 +10,6 @@ export const BASE_URL = ((env) => {
         case STAGING_ENV:
             return API_URL || "";
         default:
-            return API_URL || "http://localhost:5000";
+            return API_URL || "";
     }
 })(import.meta.env.VITE_ENV);
