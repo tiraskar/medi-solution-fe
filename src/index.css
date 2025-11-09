@@ -1,0 +1,46 @@
+@import "tailwindcss";
+.tight-form .ant-form-item {
+    margin-bottom: 0px;
+    /* default 24px */
+}
+
+.custom-table .ant-table-thead>tr>th {
+    background-color: #e6f4ff;
+    /* Light blue */
+    color: #0958d9;
+    /* Darker blue for text */
+    font-weight: 600;
+}
+@media print {
+
+    /* Hide everything by default */
+    body * {
+        visibility: hidden !important;
+    }
+
+    /* Show only print area */
+    .print-area,
+    .print-area * {
+        visibility: visible !important;
+    }
+
+    /* Position the print area on top */
+    .print-area {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 999999 !important;
+        width: 100% !important;
+        background: white !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* Remove page margins for full-page printing */
+    @page {
+        margin: 40px !important;
+        /* margin-left: 20px;
+        margin-right: 20px; */
+    }
+}
