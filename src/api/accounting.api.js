@@ -151,7 +151,7 @@ export const deleteLedger = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await deleteApi({
-        url: 'api/accounting/deleteledger/${data.id}',
+        url: "api/accounting/deleteledger/${data.id}",
       });
       toast.success("Ledger deleted successfully!!!");
       dispatch(fetchLedgerPagination());
