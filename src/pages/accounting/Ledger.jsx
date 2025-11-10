@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { LedgerForm } from '../../components';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchLedgerPagination } from '../../api/accounting.api';
+import { fetchLedger, fetchLedgerPagination } from '../../api/accounting.api';
 import LedgerTable from '../../components/table/LedgerTable';
 import { toggleCreateModelOpen, toggleSelectedLedger } from '../../store/slices/accountingSlice';
 
@@ -16,6 +16,8 @@ const Ledger = () => {
 
     useEffect(() => {
         dispatch(fetchLedgerPagination());
+        // dispatch(fetchLedger())
+        
     }, [dispatch])
 
     const handleCancel = () => {
@@ -58,4 +60,4 @@ const Ledger = () => {
     );
 };
 
-export default Ledger; 
+export default Ledger;

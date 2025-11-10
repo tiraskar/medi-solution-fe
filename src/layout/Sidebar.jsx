@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useRef, useEffect } from "react";
 import {
+  UserOutlined,
   DashboardOutlined,
   SettingOutlined,
   TeamOutlined,
@@ -59,6 +60,19 @@ const Sidebar = ({ collapsed }) => {
       module: "test",
     },
     {
+      key: "/accounts",
+      icon: <UserOutlined />,
+      label: "Account",
+       children: [
+        { key: PATH.BILLING_TITLE_FORM, label: "Billing" },
+        { key: PATH.BILLING_TITLE_MAPPING, label: "Billing map" },
+        {key: PATH.LEDGER,label:"Ledger"},
+        {key: PATH.CASH_INVOICE,label:"Cash"},
+        {key: PATH.LEDGER_MAPPING,label:"Ledger Maping"},
+
+      ],
+    },
+     {
       key: "/settings",
       icon: <SettingOutlined />,
       label: "Settings",

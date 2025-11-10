@@ -12,7 +12,9 @@ const BillingTitleMappingForm = ({ form }) => {
     const { branchList } = useSelector(state => state.master);
     const { selectedBillingTitleMapping, loading, billingTitleOptions, labelOptions } = useSelector(state => state.billingTitle);
     const { userInfo } = useSelector(state => state.auth);
-    const userBranch = userInfo.branchInfo?.branch_id;
+    
+    // FIX: Add proper null checking
+    const userBranch = userInfo?.branchInfo?.branch_id;
 
     const onFinish = async (values) => {
         try {
@@ -22,7 +24,7 @@ const BillingTitleMappingForm = ({ form }) => {
                 await dispatch(
                     createBillingTitleMapping({
                         ...values,
-                        created_by: userInfo?.user_id,
+                        created_by: userInfo?.user_id, // FIX: Also added optional chaining here
                     })
                 ).unwrap();
             }
@@ -30,7 +32,7 @@ const BillingTitleMappingForm = ({ form }) => {
             // ✅ Only reset if request is successful
             form.resetFields();
         } catch (error) {
-            // ❌ Don’t reset on error
+            // ❌ Don't reset on error
             console.error("Error saving billing title mapping:", error);
         }
     };
@@ -38,9 +40,14 @@ const BillingTitleMappingForm = ({ form }) => {
     useEffect(() => {
         dispatch(getBranchList())
             .unwrap().then(() => {
-                userBranch && form.setFieldsValue({ branch_id: userBranch });
+                // FIX: Check if userBranch exists before setting form value
+                if (userBranch) {
+                    form.setFieldsValue({ branch_id: userBranch });
+                }
+            }).catch(error => {
+                console.error("Failed to fetch branch list:", error);
             });
-    }, [dispatch]);
+    }, [dispatch, form, userBranch]); // FIX: Added dependencies
 
     useEffect(() => {
         if (selectedBillingTitleMapping) {
@@ -51,7 +58,7 @@ const BillingTitleMappingForm = ({ form }) => {
                 branch_id: selectedBillingTitleMapping.branch_id
             });
         }
-    }, [selectedBillingTitleMapping])
+    }, [selectedBillingTitleMapping, form]) // FIX: Added form dependency
 
     return (
 
@@ -72,7 +79,7 @@ const BillingTitleMappingForm = ({ form }) => {
                     rules={[{ required: true, message: 'Please select a billing title' }]}
                 >
                     <Select placeholder="Select billing title" allowClear>
-                        {billingTitleOptions.map((billing) => (
+                        {billingTitleOptions?.map((billing) => ( // FIX: Added optional chaining
                             <Option key={billing.billing_title_id} value={billing.billing_title_id}>
                                 {billing.billing_title}
                             </Option>
@@ -87,7 +94,7 @@ const BillingTitleMappingForm = ({ form }) => {
                     rules={[{ required: true, message: 'Please select a label' }]}
                 >
                     <Select placeholder="Select branch" allowClear>
-                        {labelOptions.map((label) => (
+                        {labelOptions?.map((label) => ( // FIX: Added optional chaining
                             <Option key={label.label_id} value={label.label_id}>
                                 {label.label_name}
                             </Option>
@@ -102,7 +109,7 @@ const BillingTitleMappingForm = ({ form }) => {
                     rules={[{ required: true, message: 'Please select a branch' }]}
                 >
                     <Select placeholder="Select branch" allowClear>
-                        {branchList.map((branch) => (
+                        {branchList?.map((branch) => ( // FIX: Added optional chaining
                             <Option key={branch.branch_id} value={branch.branch_id}>
                                 {branch.name}
                             </Option>
@@ -128,7 +135,7 @@ const BillingTitleMappingForm = ({ form }) => {
             {/* Submit Button */}
             <Form.Item>
                 <Space className="w-full justify-start mt-4 flex">
-                    <Button type="primary" htmlType="submit">
+                    <Button type="primary" htmlType="submit" disabled={loading}>
                         {loading ? 'Saving...' : selectedBillingTitleMapping ? 'Update' : 'Create'}
                     </Button>
                     <Button danger htmlType="button" onClick={() => form.resetFields()}>

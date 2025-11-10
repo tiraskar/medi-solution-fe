@@ -1,18 +1,19 @@
-import { Button, Modal, Popconfirm, Space, Table, Tag } from 'antd';
+import { Modal, Table, Tag } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import useDynamicTableScroll from '../../hook/useDynamicTableScroll';
 import { EditOutlined, DeleteOutlined, ExclamationCircleOutlined } from '@ant-design/icons';
 import { deleteLedger, fetchLedgerPagination } from '../../api/accounting.api';
 import { toggleSelectedLedger, updatePagination } from '../../store/slices/accountingSlice';
 import { parseUntilNotString } from '../../utils/array';
-// import { tableHeadRowComponent } from '../tableHeadRowComponent';
 
 const LedgerTable = () => {
     const { ledgers, pagination } = useSelector(state => state.accounting);
+    const { userInfo } = useSelector(state => state.auth);
     const dispatch = useDispatch();
     const scroll = useDynamicTableScroll();
-    const { userInfo } = useSelector(state => state.auth);
-    const permission = parseUntilNotString(userInfo?.permissionInfo.permission) || {};
+
+    const permission = parseUntilNotString(userInfo?.permissionInfo?.permission) || {};
+
     const handleEdit = (record) => {
         dispatch(toggleSelectedLedger(record));
     };
@@ -52,18 +53,14 @@ const LedgerTable = () => {
             dataIndex: 'group_name',
             key: 'group_name',
             width: 200,
-            render: (value, record) => {
-                return <div>{record?.ledgerGroup?.ledger_group_name}</div>;
-            }
+            render: (value, record) => <div>{record?.ledger_group_name}</div>,
         },
         {
             title: 'Sub Group',
             dataIndex: 'sub_group_name',
             key: 'sub_group_name',
             width: 200,
-            render: (value, record) => {
-                return <div>{record?.ledgerSubGroup?.sub_group_name}</div>;
-            }
+            render: (value, record) => <div>{record?.sub_group_name}</div>,
         },
         {
             title: 'Opening Balance',
@@ -89,22 +86,22 @@ const LedgerTable = () => {
             width: 120,
             render: (_, record) => (
                 <span style={{ display: 'flex', gap: '12px' }}>
-                    {(permission?.ledger?.includes('update') || userInfo?.user_type == 'admin') && <EditOutlined
+                    <EditOutlined
                         style={{ color: '#1890ff', cursor: 'pointer' }}
                         onClick={(e) => {
-                            e.stopPropagation(); // Prevent triggering onRow click
+                            e.stopPropagation();
                             handleEdit(record);
                         }}
-                        className='!bg-blue-500 p-2 rounded-md !text-white'
-                    />}
-                    {(permission?.ledger?.includes('delete') || userInfo?.user_type == 'admin') && <DeleteOutlined
+                        className="!bg-blue-500 p-2 rounded-md !text-white"
+                    />
+                    <DeleteOutlined
                         style={{ color: '#ff4d4f', cursor: 'pointer' }}
                         onClick={(e) => {
                             e.stopPropagation();
                             handleDelete(record);
                         }}
-                        className='!bg-red-500 p-2 rounded-md !text-white'
-                    />}
+                        className="!bg-red-500 p-2 rounded-md !text-white"
+                    />
                 </span>
             ),
         },
@@ -115,7 +112,6 @@ const LedgerTable = () => {
             columns={columns}
             dataSource={ledgers || []}
             rowKey="id"
-            // components={tableHeadRowComponent}
             pagination={{
                 showTotal: (total, range) =>
                     `Showing ${range[0]}–${range[1]} of ${total} entries`,
@@ -128,13 +124,9 @@ const LedgerTable = () => {
                     dispatch(fetchLedgerPagination());
                 },
             }}
-            onRow={(record) => {
-                return {
-                    onClick: () => {
-                        handleEdit(record);
-                    },
-                };
-            }}
+            onRow={(record) => ({
+                onClick: () => handleEdit(record),
+            })}
             size="small"
             scroll={scroll}
         />
