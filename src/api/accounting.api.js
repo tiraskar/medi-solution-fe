@@ -185,7 +185,7 @@ export const saveLedgerMapping = createAsyncThunk(
 
 export const fetchLedgerMappingPagination = createAsyncThunk(
   "ledgerMapping/fetchPagination",
-  async (params, { rejectWithValue, getState }) => {
+  async (_, { rejectWithValue, getState }) => {
     try {
       const state = getState().accounting;
       const { pagination } = state;

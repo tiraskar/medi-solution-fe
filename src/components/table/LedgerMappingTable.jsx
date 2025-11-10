@@ -12,7 +12,7 @@ const LedgerMappingTable = () => {
     const scroll = useDynamicTableScroll();
 
 
-    // console.log(ledgerMappings.rows);
+    // console.log(ledgerMappings);
     
 
     const handleEdit = (record) => {
@@ -71,25 +71,22 @@ const LedgerMappingTable = () => {
 
     return (
   <Table
-  loading={loading}
-  columns={columns}
-  dataSource={ledgerMappings.rows}
-  rowKey="id"
-  scroll={scroll}
-  pagination={{
-    showTotal: (total, range) => `Showing ${range[0]}–${range[1]} of ${total} entries`,
-    current: pagination?.page,
-    pageSize: pagination?.limit,
-    total: pagination?.total,
-    showSizeChanger: true,
-    onChange: (pag) => {
-      const { current, pageSize } = pag;
-    //   console.log(current,pageSize);
-      
-      dispatch(updatePagination({ page: current, limit: pageSize }));
-      dispatch(fetchLedgerMappingPagination({ page: current, limit: pageSize }));
-    },
-  }}
+    loading={loading}
+    columns={columns}
+    dataSource={ledgerMappings}
+    rowKey="id"
+    scroll={scroll}
+    pagination={{
+        showTotal: (total, range) => `Showing ${range[0]}–${range[1]} of ${total} entries`,
+        current: pagination?.page,
+        pageSize: pagination?.limit,
+        total: pagination?.total,
+        showSizeChanger: true,
+        onChange: (page, limit) => {
+            dispatch(updatePagination({ page, limit }));
+            dispatch(fetchLedgerMappingPagination());
+            },
+    }}
 />
 
     );
