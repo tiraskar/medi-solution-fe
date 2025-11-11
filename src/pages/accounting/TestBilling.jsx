@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Select, Table, Card, Spin, message } from "antd";
+import { Select, Table, Card, Spin, message, Button } from "antd";
 import { fetchTestRatesApi } from "../../api/testRate.api";
-import { tableComponent } from "../../components/table/TableHeader";
-import useDynamicTableScroll from "../../hook/useDynamicTableScroll";
-
-
+import { DeleteOutlined, DownloadOutlined } from "@ant-design/icons";
+import { exportTestBillingToExcel } from "../../utils/excelExport"; // Import the Excel utility
 
 const { Option } = Select;
 
@@ -20,7 +18,7 @@ export default function TestBilling() {
   } = useSelector((state) => state.testRates || {});
 
   const testRates = Array.isArray(apiResponse.data) ? apiResponse.data : [];
-  const scroll = useDynamicTableScroll();
+
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [selectedAgent, setSelectedAgent] = useState(null);
@@ -51,13 +49,64 @@ export default function TestBilling() {
     });
   }, [selectedTest, selectedGroup, testRates]);
 
+  // ✅ Local state to allow removing items
+  const [displayedItems, setDisplayedItems] = useState([]);
+
+  useEffect(() => {
+    setDisplayedItems(selectedItems);
+  }, [selectedItems]);
+
+  // ✅ Remove item handler
+  const handleRemoveItem = (id) => {
+    setDisplayedItems(prev => prev.filter(item => item.test_id !== id));
+    message.success("Item removed successfully");
+  };
+
+  // ✅ Remove all items
+  
+
+  // ✅ Excel export handler
+  const handleExportToExcel = () => {
+    if (displayedItems.length === 0) {
+      message.warning("No data to export");
+      return;
+    }
+
+    try {
+      exportTestBillingToExcel(displayedItems, totalRate);
+      message.success("Data exported to Excel successfully!");
+    } catch (error) {
+      console.error("Export error:", error);
+      message.error(error.message || "Failed to export data to Excel");
+    }
+  };
+
   const columns = [
     { title: "Test Name", dataIndex: "test_name", key: "test_name" },
     { title: "Parameters", dataIndex: "parameters", key: "parameters" },
     { title: "Rate (Rs)", dataIndex: "rate", key: "rate" },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => (
+        <Button
+          danger
+          icon={<DeleteOutlined />}
+          onClick={() => handleRemoveItem(record.test_id)}
+          style={{
+            backgroundColor: "red",
+            border: "2px solid white",
+            color: "white",
+          }}
+        />
+      ),
+    },
   ];
 
-  const totalRate = selectedItems.reduce((sum, item) => sum + (parseFloat(item.rate) || 0), 0);
+  const totalRate = displayedItems.reduce(
+    (sum, item) => sum + (parseFloat(item.rate) || 0),
+    0
+  );
 
   useEffect(() => {
     dispatch(fetchTestRatesApi());
@@ -140,26 +189,45 @@ export default function TestBilling() {
 
         </div>
 
-        {/* Table */}
+        {/* Table Header with Actions */}
         <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+      
           <Table
-            dataSource={selectedItems}
-           components={tableComponent}
-            scroll={scroll}
+            dataSource={displayedItems}
             columns={columns}
-            // pagination={true}
             rowKey="test_id"
             locale={{ emptyText: "Select Test or Test Group to show items" }}
+            pagination={displayedItems.length > 10 ? { pageSize: 10 } : false}
           />
         </div>
 
-        {/* Total Rate */}
-        {selectedItems.length > 0 && (
-          <div className="mt-6 bg-gray-100 border border-gray-400 rounded-lg px-8 py-2 shadow-md text-center w-56 h-20 mx-auto">
-            <p className="text-sm text-gray-700 font-medium">Total Rate</p>
-            <p className="text-2xl font-bold text-black-700">Rs {totalRate.toLocaleString()}</p>
-          </div>
-        )}
+  {displayedItems.length > 0 && (
+  <div className="mt-6 flex justify-center items-center gap-200">
+    {/* ✅ Total Rate Box */}
+    <div className="bg-gray-100 border border-gray-400 rounded-lg px-6 py-2 shadow-md text-center w-56 h-20">
+      <h3 className="text-sm text-gray-700 font-medium">Total Rate</h3>
+      <p className="text-2xl font-bold text-black">
+        Rs {totalRate.toLocaleString()}
+      </p>
+    </div>
+
+    {/* ✅ Export Button (outside the box, on right side) */}
+    <Button
+      type="primary"
+      icon={<DownloadOutlined />}
+      onClick={handleExportToExcel}
+      size="middle"
+      style={{
+        backgroundColor: "#52c41a",
+        borderColor: "#52c41a",
+        height: "50px",
+      }}
+    >
+      Export to Excel
+    </Button>
+  </div>
+)}
+
       </Card>
     </div>
   );
