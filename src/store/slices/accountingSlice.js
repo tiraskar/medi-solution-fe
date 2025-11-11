@@ -64,6 +64,8 @@ const accountingSlice = createSlice({
       state.selectedLedgerMapping = action.payload;
     },
     updatePagination: (state, action) => {
+      // console.log("payload", { ...state.pagination, ...action.payload });
+
       state.pagination = { ...state.pagination, ...action.payload };
     },
   },
@@ -221,8 +223,8 @@ const accountingSlice = createSlice({
       .addCase(fetchLedgerMappingPagination.fulfilled, (state, action) => {
         state.loading = false;
         state.isError = false;
-        state.ledgerMappings = action.payload.data || [];
-        state.pagination.total = action.payload.total || 0;
+        state.ledgerMappings = action.payload.data?.rows || [];
+        state.pagination.total = action.payload.data?.total || 0;
       })
       .addCase(fetchLedgerMappingPagination.rejected, (state, action) => {
         state.loading = false;

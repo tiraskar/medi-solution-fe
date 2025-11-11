@@ -1,10 +1,22 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { PATH } from "../utils/path";
 import {
-    Category, Dashboard, EconomicYear, Login, SubCategory, Users, SMSSetting,
-    Ledger, LedgerMapping, Branch,  BillingTitle, BillingTitleMapping,
-    VehicleRegistration, VehicleInvoice,
-    CashInvoice
+  Category,
+  Dashboard,
+  EconomicYear,
+  Login,
+  SubCategory,
+  Users,
+  SMSSetting,
+  Ledger,
+  LedgerMapping,
+  Branch,
+  BillingTitle,
+  BillingTitleMapping,
+  VehicleRegistration,
+  VehicleInvoice,
+  CashInvoice,
+  TestBilling,
 } from "../pages";
 import ProtectedLayout from "../layout/ProtectedLayout";
 import SharedLayout from "../layout/SharedLayout";
@@ -19,44 +31,46 @@ import PatientForm from "../components/form/PatientForm";
 import DoctorList from "../pages/master/DoctorList";
 import PatientList from "../pages/master/PatientList";
 import AgentList from "../pages/master/AgentList";
-import  TestBilling  from "../pages/accounting/TestBilling";
 
 
 const AppRoute = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
-                {/* Public Route */}
-                <Route path={PATH.LOGIN} element={<Login />} />
+  return (
+    <BrowserRouter>
+      <Routes>
+        {/* Public Route */}
+        <Route path={PATH.LOGIN} element={<Login />} />
 
-                {/* Protected Routes */}
-                {/* <Route element={<ProtectedLayout />}> */}
-                    <Route path={PATH.SETUP} element={<SharedLayout />}>
-                        {/* <Route index path={PATH.SETUP} element={<ProjectSetup />} /> */}
-                        <Route path={PATH.DASHBOARD} element={<Dashboard />} />
-                        <Route path={PATH.MASTER}>
-                            <Route path={PATH.CATEGORY}
-                                element={
-                                    // <PermissionRoute module="category">
-                                        <Category />
-                                    /* </PermissionRoute> */
-                                }
-                            />
-                             <Route path={PATH.DOCTORLIST}
-                                element={
-                                    // <PermissionRoute module="category">
-                                        <DoctorList />
-                                    /* </PermissionRoute> */
-                                }
-                            />
+        {/* Protected Routes */}
+        {/* <Route element={<ProtectedLayout />}> */}
+        <Route path={PATH.SETUP} element={<SharedLayout />}>
+          {/* <Route index path={PATH.SETUP} element={<ProjectSetup />} /> */}
+          <Route path={PATH.DASHBOARD} element={<Dashboard />} />
+          <Route path={PATH.MASTER}>
+            <Route
+              path={PATH.CATEGORY}
+              element={
+                // <PermissionRoute module="category">
+                <Category />
+                /* </PermissionRoute> */
+              }
+            />
+            <Route
+              path={PATH.DOCTORLIST}
+              element={
+                // <PermissionRoute module="category">
+                <DoctorList />
+                /* </PermissionRoute> */
+              }
+            />
 
-                                                <Route path={PATH.AGENTLIST}
-                                element={
-                                    // <PermissionRoute module="category">
-                                        <AgentList />
-                                    /* </PermissionRoute> */
-                                }
-                            />
+            <Route
+              path={PATH.AGENTLIST}
+              element={
+                // <PermissionRoute module="category">
+                <AgentList />
+                /* </PermissionRoute> */
+              }
+            />
 
                                  <Route path={PATH.PATIENTLIST}
                                 element={
@@ -124,11 +138,7 @@ const AppRoute = () => {
                                     <LedgerMapping />
                                 //  </PermissionRoute> 
                             } />
-                            <Route path={PATH.BILLING_TITLE} element={
-                                // <PermissionRoute module="billingTitle">
-                                    <BillingTitle />
-                                //  </PermissionRoute> 
-                            } />
+                          
                              <Route path={PATH.TESTBILLING} element={
                                 // <PermissionRoute module="billingTitle">
                                     <TestBilling />

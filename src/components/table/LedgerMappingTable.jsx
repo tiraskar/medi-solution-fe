@@ -11,6 +11,10 @@ const LedgerMappingTable = () => {
     const { ledgerMappings, pagination, loading } = useSelector(state => state.accounting);
     const scroll = useDynamicTableScroll();
 
+
+    // console.log(ledgerMappings);
+    
+
     const handleEdit = (record) => {
         dispatch(toggleSelectedLedgerMapping(record));
     };
@@ -40,7 +44,7 @@ const LedgerMappingTable = () => {
             key: 'ledger_id',
             width: 200,
             render: (value, record) => {
-                const ledger = record?.ledgerInfo;
+                const ledger = record;
                 return ledger ? ledger.ledgername : '-';
             }
         },
@@ -50,7 +54,8 @@ const LedgerMappingTable = () => {
             width: 120,
             render: (_, record) => (
                 <span style={{ display: 'flex', gap: '12px' }}>
-                    {(permission?.ledgerMapping?.includes('update') || userInfo?.user_type == 'admin') && <EditOutlined
+                    {/* {(permission?.ledgerMapping?.includes('update') || userInfo?.user_type == 'admin') && <EditOutlined */}
+                    { <EditOutlined
                         style={{ cursor: 'pointer' }}
                         onClick={(e) => {
                             e.stopPropagation();
@@ -65,31 +70,25 @@ const LedgerMappingTable = () => {
     ];
 
     return (
-        <Table
-            loading={loading}
-            columns={columns}
-            dataSource={ledgerMappings}
-            // components={tableHeadRowComponent}
-            rowKey="id"
-            onRow={(record) => ({
-                onClick: () => {
-                    dispatch(toggleSelectedLedgerMapping(record));
-                },
-            })}
-            scroll={scroll}
-            pagination={{
-                showTotal: (total, range) => `Showing ${range[0]}–${range[1]} of ${total} entries`,
-                current: pagination?.page,
-                pageSize: pagination?.limit,
-                total: pagination?.total,
-                showSizeChanger: true,
-                onChange: (page, limit) => {
-                    dispatch(updatePagination({ page, limit }));
-                    dispatch(fetchLedgerMappingPagination());
-                },
-            }}
-            size="small"
-        />
+  <Table
+    loading={loading}
+    columns={columns}
+    dataSource={ledgerMappings}
+    rowKey="id"
+    scroll={scroll}
+    pagination={{
+        showTotal: (total, range) => `Showing ${range[0]}–${range[1]} of ${total} entries`,
+        current: pagination?.page,
+        pageSize: pagination?.limit,
+        total: pagination?.total,
+        showSizeChanger: true,
+        onChange: (page, limit) => {
+            dispatch(updatePagination({ page, limit }));
+            dispatch(fetchLedgerMappingPagination());
+            },
+    }}
+/>
+
     );
 };
 

@@ -83,6 +83,10 @@ const LedgerForm = ({ form }) => {
       form={form}
       onFinish={onFinish}
       layout="vertical"
+      initialValues={{
+  status: 1,          // 1 = Active, 0 = Inactive
+  transaction_type: "Debit",
+}}
       className="tight-form !space-y-3 w-full"
     >
       <div className="grid gap-3 lg:grid-cols-2">
@@ -111,7 +115,7 @@ const LedgerForm = ({ form }) => {
         <Form.Item
           label="Sub Ledger Group"
           name="ledger_sub_group_id"
-          rules={[{ required: true, message: "Please select sub group" }]}
+          rules={[]}
         >
           <Select placeholder="Select a Sub ledger group" allowClear>
             {ledgerSubGroups.map((sub) => (
@@ -160,12 +164,17 @@ const LedgerForm = ({ form }) => {
           </Select>
         </Form.Item>
 
-        <Form.Item label="Transaction Type" name="transaction_type">
-          <Radio.Group>
-            <Radio value="Debit">Debit</Radio>
-            <Radio value="Credit">Credit</Radio>
-          </Radio.Group>
-        </Form.Item>
+  <Form.Item
+    label="Transaction Type"
+    name="transaction_type"
+
+  >
+    <Radio.Group>
+      <Radio value="Debit">Debit</Radio>
+      <Radio value="Credit">Credit</Radio>
+    </Radio.Group>
+  </Form.Item>
+
 
         {selectedLedger && (
           <Form.Item label="Remarks" name="remarks" className="!col-span-2">
