@@ -39,6 +39,7 @@ const Sidebar = ({ collapsed }) => {
         { key: PATH.DOCTORLIST, label: "Doctor" },
         { key: PATH.AGENTLIST, label: "Agent" },
         {key: PATH.PATIENTLIST,label:"patient"}
+        // {key: PATH.TESTLIST,label:"patient"}
       ],
     },
     {
@@ -66,6 +67,8 @@ const Sidebar = ({ collapsed }) => {
        children: [
         { key: PATH.BILLING_TITLE_FORM, label: "Billing" },
         { key: PATH.BILLING_TITLE_MAPPING, label: "Billing map" },
+        { key: PATH.TESTLIST, label: "Test" },
+        { key: PATH.TESTGROUPLIST, label: "TestGroup" },
         {key: PATH.LEDGER,label:"Ledger"},
         {key: PATH.CASH_INVOICE,label:"Cash"},
         {key: PATH.LEDGER_MAPPING,label:"Ledger Maping"},

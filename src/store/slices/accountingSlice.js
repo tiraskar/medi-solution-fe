@@ -64,7 +64,7 @@ const accountingSlice = createSlice({
       state.selectedLedgerMapping = action.payload;
     },
     updatePagination: (state, action) => {
-      // console.log("payload", action.payload);
+      // console.log("payload", { ...state.pagination, ...action.payload });
 
       state.pagination = { ...state.pagination, ...action.payload };
     },

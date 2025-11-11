@@ -20,6 +20,8 @@ import masterReducer from "./slices/masterSlice";
 import accountingReducer from "./slices/accountingSlice";
 import userReducer from "./slices/usersSlice";
 import billingTitleReducer from "./slices/billingTitleSlice";
+import testReducer from "./slices/testSlice";
+import testGroupReducer from "./slices/testGroupSlice";
 import vehicleReducer from "./slices/vehicleSlice";
 import vehicleInvoiceReducer from "./slices/vehicleInvoiceSlice";
 import cashInvoiceReducer from "./slices/cashInvoiceSlice";
@@ -41,6 +43,8 @@ const rootReducer = combineReducers({
   doctor: doctorReducer, // ✅ added doctor slice here
   agent: agentReducer,
   patient: patientReducer,
+  test: testReducer,
+  testGroup: testGroupReducer,
   category: categoryReducer,
   master: masterReducer,
   accounting: accountingReducer,

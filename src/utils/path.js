@@ -23,6 +23,8 @@ export const PATH = {
   PATIENTLIST: "master/patientlist",
   DOCTORLIST: "/doctor-list",
   AGENTLIST: "/agent-list",
+  TESTLIST: "master/testlist",
+  TESTGROUPLIST: "master/testgrouplist",
   DOCTOR: "master/doctor",
   ACCOUNTING: "/accounting",
   VEHICLE_REGISTRATION: "/vehicle-registration",
