@@ -135,6 +135,7 @@ export default function TestBilling() {
           <div>
             <div className="text-white font-semibold text-center py-2 rounded-md mb-1">Test</div>
             <Select
+            mode="multiple"
               placeholder="Select Test"
               value={selectedTest}
               onChange={setSelectedTest}
@@ -149,6 +150,8 @@ export default function TestBilling() {
           <div>
             <div className="text-white font-semibold text-center py-2 rounded-md mb-1">Test Group</div>
             <Select
+            // mode="multiple"
+
               placeholder="Select Group"
               value={selectedGroup}
               onChange={setSelectedGroup}
