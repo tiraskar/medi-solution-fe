@@ -19,7 +19,7 @@ import PatientForm from "../components/form/PatientForm";
 import DoctorList from "../pages/master/DoctorList";
 import PatientList from "../pages/master/PatientList";
 import AgentList from "../pages/master/AgentList";
-import { BillingTitleForm } from "../components";
+import  TestBilling  from "../pages/accounting/TestBilling";
 
 
 const AppRoute = () => {
@@ -129,9 +129,9 @@ const AppRoute = () => {
                                     <BillingTitle />
                                 //  </PermissionRoute> 
                             } />
-                             <Route path={PATH.BILLING_TITLE_FORM} element={
+                             <Route path={PATH.TESTBILLING} element={
                                 // <PermissionRoute module="billingTitle">
-                                    <BillingTitleForm />
+                                    <TestBilling />
                                 //  </PermissionRoute> 
                             } />
                             <Route path={PATH.BILLING_TITLE_MAPPING} element={

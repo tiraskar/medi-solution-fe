@@ -10,6 +10,8 @@ export { default as LedgerMapping } from './accounting/LedgerMapping';
 export { default as Branch } from './master/Branch';
 // export { default as ProjectSetup } from './ProjectSetup';
 export { default as BillingTitle } from "./accounting/BillingTitle";
+export { default as TestBilling } from "./accounting/TestBilling";
+
 export { default as BillingTitleMapping } from "./accounting/BillingTitleMapping";
 export { default as VehicleRegistration } from "./VehicleRegistration";
 export { default as VehicleInvoice } from "./accounting/VehicleInvoice";

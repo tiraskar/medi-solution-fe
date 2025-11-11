@@ -14,6 +14,8 @@ import {
 import authReducer from "./slices/authSlice";
 import doctorReducer from "./slices/doctorSlice"; // ✅ different name
 import agentReducer from "./slices/agentSlice";
+import testRateReducer from "./slices/testRateSlice";
+
 import patientReducer from "./slices/patientSlice";
 import categoryReducer from "./slices/categorySlice";
 import masterReducer from "./slices/masterSlice";
@@ -25,6 +27,7 @@ import vehicleInvoiceReducer from "./slices/vehicleInvoiceSlice";
 import cashInvoiceReducer from "./slices/cashInvoiceSlice";
 import vehicleExpiryReportReducer from "./slices/vehicleExpiryReportSlice";
 import renewalReminderReducer from "./slices/renewalReminderSlice";
+
 
 // 👉 custom storage wrapper
 import storageWithMidnightExpiry from "./storageWithMidnightExpiry";
@@ -45,6 +48,7 @@ const rootReducer = combineReducers({
   master: masterReducer,
   accounting: accountingReducer,
   users: userReducer,
+  testRates :testRateReducer,
   billingTitle: billingTitleReducer,
   vehicle: vehicleReducer,
   vehicleInvoice: vehicleInvoiceReducer,
