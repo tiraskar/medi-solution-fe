@@ -156,25 +156,35 @@ export default function TestBilling() {
               ))}
             </Select>
           </div>
+{/* Test Group */}
+<div>
+  <div className="text-white font-semibold text-center py-2 rounded-md mb-1">Test Group</div>
+  <Select
+    placeholder="Select Group"
+    value={selectedGroups[0] || null} // only single selection
+    onChange={(value) => {
+      setSelectedGroups(value ? [value] : []); // store as array for consistency
+      // Auto-select tests belonging to this group
+      if (value) {
+        const testsForGroup = testRates
+          .filter((item) => item.parameters === value)
+          .map((item) => item.test_name);
+        setSelectedTests(testsForGroup);
+      } else {
+        setSelectedTests([]);
+      }
+    }}
+    allowClear
+    style={{ width: "100%" }}
+  >
+    {allGroups.map((g) => (
+      <Option key={g} value={g}>
+        {g}
+      </Option>
+    ))}
+  </Select>
+</div>
 
-          {/* Test Group */}
-          <div>
-            <div className="text-white font-semibold text-center py-2 rounded-md mb-1">Test Group</div>
-            <Select
-              mode="multiple"
-              placeholder="Select Group"
-              value={selectedGroups}
-              onChange={setSelectedGroups}
-              allowClear
-              style={{ width: "100%" }}
-            >
-              {filteredGroups.map((g) => (
-                <Option key={g} value={g}>
-                  {g}
-                </Option>
-              ))}
-            </Select>
-          </div>
 
           {/* Agent */}
           <div>
@@ -225,7 +235,7 @@ export default function TestBilling() {
         </div>
 
         {displayedItems.length > 0 && (
-          <div className="mt-6 flex justify-center items-center gap-6">
+          <div className="mt-6 flex justify-center items-center gap-200">
             <div className="bg-gray-100 border border-gray-400 rounded-lg px-6 py-2 shadow-md text-center w-56 h-20">
               <h3 className="text-sm text-gray-700 font-medium">Total Rate</h3>
               <p className="text-2xl font-bold text-black">Rs {totalRate.toLocaleString()}</p>

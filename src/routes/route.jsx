@@ -31,6 +31,9 @@ import PatientForm from "../components/form/PatientForm";
 import DoctorList from "../pages/master/DoctorList";
 import PatientList from "../pages/master/PatientList";
 import AgentList from "../pages/master/AgentList";
+import TestList from "../pages/master/TestList";
+import TestGroupList from "../pages/master/TestGroupList";
+
 
 
 const AppRoute = () => {
@@ -88,6 +91,13 @@ const AppRoute = () => {
                                         <Route path={PATH.DOCTOR} element={<CreateDoctorForm />} />
 
 
+                            <Route path={PATH.TESTLIST}
+                                element={
+                                    // <PermissionRoute module="subCategory">
+                                        <TestList />
+                                    //  </PermissionRoute> 
+                                }
+                            />v
                             <Route path={PATH.SUB_CATEGORY}
                                 element={
                                     // <PermissionRoute module="subCategory">
@@ -125,6 +135,11 @@ const AppRoute = () => {
                                 //  </PermissionRoute> 
                             }
                             />
+                               <Route path={PATH.TESTGROUPLIST} element={
+                                // <PermissionRoute module="billingTitleMapping">
+                                    <TestGroupList />
+                                //  </PermissionRoute> 
+                            } />
                         </Route>
                         <Route path={PATH.ACCOUNTING}>
                             <Route path={PATH.LEDGER} element={
@@ -139,16 +154,17 @@ const AppRoute = () => {
                                 //  </PermissionRoute> 
                             } />
                           
-                             <Route path={PATH.TESTBILLING} element={
-                                // <PermissionRoute module="billingTitle">
-                                    <TestBilling />
-                                //  </PermissionRoute> 
-                            } />
                             <Route path={PATH.BILLING_TITLE_MAPPING} element={
                                 // <PermissionRoute module="billingTitleMapping">
-                                    <BillingTitleMapping />
+                                <BillingTitleMapping />
                                 //  </PermissionRoute> 
                             } />
+                            <Route path={PATH.TESTBILLING} element={
+                               // <PermissionRoute module="billingTitle">
+                                   <TestBilling />
+                               //  </PermissionRoute> 
+                           } />
+                           
                             <Route path={PATH.INVOICE} element={
                                 // <PermissionRoute module="vehicleInvoice">
                                     <VehicleInvoice />
