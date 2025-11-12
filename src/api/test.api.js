@@ -1,6 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import toast from "react-hot-toast";
-import { getApi, postApi, putFileApi, deleteApi } from "../lib/axiosInstance";
+import {
+  getApi,
+  postApi,
+  putFileApi,
+  deleteApi,
+  putApi,
+} from "../lib/axiosInstance";
 import { clearSelectedTest } from "../store/slices/testSlice";
 
 // Get all tests
@@ -62,7 +68,7 @@ export const updateTest = createAsyncThunk(
   "test/update",
   async ({ id, data }, { dispatch, rejectWithValue }) => {
     try {
-      const res = await putFileApi({ url: `api/test/${id}`, body: data });
+      const res = await putApi({ url: `api/test/${id}`, body: data });
       toast.success("Test updated successfully");
       dispatch(clearSelectedTest());
       return res;

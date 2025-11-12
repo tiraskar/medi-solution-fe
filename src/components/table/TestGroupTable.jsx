@@ -46,19 +46,21 @@ const TestGroupTable = () => {
             title: 'Group Name',
             dataIndex: 'group_name',
             key: 'group_name',
-            width: 250,
+            width: 100,
             sorter: true,
         },
         {
             title: 'Tests',
             dataIndex: 'tests',
             key: 'tests',
+            width:230,
             render: (tests) => tests?.map(t => t.test_name).join(', '),
         },
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
+            align:"center",
             width: 120,
             render: (status) => (
                 <Tag color={status === 1 ? 'green' : 'red'}>
@@ -69,9 +71,10 @@ const TestGroupTable = () => {
         {
             title: 'Actions',
             key: 'actions',
-            width: 120,
+            align: 'center',
+            width:50,
             render: (_, record) => (
-                <span style={{ display: 'flex', gap: '12px' }}>
+                <span style={{ display: 'flex', gap: '12px',justifyContent:"center" }}>
                     <EditOutlined
                         style={{ color: '#1890ff', cursor: 'pointer' }}
                         onClick={(e) => {

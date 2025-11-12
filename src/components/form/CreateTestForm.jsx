@@ -24,13 +24,17 @@ export default function CreateTestForm({ onSubmit, selectedTest }) {
   }, [selectedTest, form]);
 
   const handleFinish = (values) => {
+    // console.log(selectedTest);
     const formData = {
       ...values,
       bio,
       created_by: 1, // you can make this dynamic
+      status: 1,
     };
 
-    onSubmit(formData, selectedTest ? selectedTest.id : null);
+    
+
+    onSubmit(formData, selectedTest ? selectedTest.test_id : null);
     form.resetFields();
     setBio("");
   };

@@ -8,7 +8,7 @@ const { Option } = Select;
 
 const TestGroupForm = ({ form, selectedGroup }) => {
     const dispatch = useDispatch();
-    const { tests } = useSelector(state => state.test);
+    const { tests, isModalOpen } = useSelector(state => state.test);
     // const {  selectedGroup  } = useSelector(state => state.testGroup);
 
     useEffect(() => {
@@ -39,11 +39,13 @@ const TestGroupForm = ({ form, selectedGroup }) => {
 
         if (selectedGroup) {
             dispatch(updateTestGroup({ id: selectedGroup.group_id, data: payload }));
-            form.resetFields();
+            dispatch(isModalOpen(false))
         } else {
             dispatch(addTestGroup(payload));
-            form.resetFields();
+            dispatch(isModalOpen(false))
+
         }
+        form.resetFields();
     };
 
     return (
