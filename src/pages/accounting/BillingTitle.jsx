@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BillingTitleForm, BillingTitleTable } from '../../components';
+import {  BillingTitleTable } from '../../components';
 import { Button, Typography, Modal, Select, Form } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBillingTitleList } from '../../api/billingTitle.api';
@@ -57,7 +57,7 @@ const BillingTitle = () => {
                 footer={null}
                 className='md:!min-w-[40vw]'
             >
-                <BillingTitleForm form={form} />
+                {/* <BillingTitleForm form={form} /> */}
             </Modal>
         </div>
     );

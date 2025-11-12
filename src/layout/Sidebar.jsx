@@ -65,7 +65,7 @@ const Sidebar = ({ collapsed }) => {
       icon: <UserOutlined />,
       label: "Account",
        children: [
-        { key: PATH.BILLING_TITLE_FORM, label: "Billing" },
+        { key: PATH.TESTBILLING, label: "Billing" },
         { key: PATH.BILLING_TITLE_MAPPING, label: "Billing map" },
         { key: PATH.TESTLIST, label: "Test" },
         { key: PATH.TESTGROUPLIST, label: "TestGroup" },
