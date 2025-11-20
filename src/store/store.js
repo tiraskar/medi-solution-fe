@@ -24,9 +24,10 @@ import userReducer from "./slices/usersSlice";
 import billingTitleReducer from "./slices/billingTitleSlice";
 import testReducer from "./slices/testSlice";
 import testGroupReducer from "./slices/testGroupSlice";
-import vehicleReducer from "./slices/vehicleSlice";
+import reportReducer from "./slices/reportSlice";
 import vehicleInvoiceReducer from "./slices/vehicleInvoiceSlice";
 import cashInvoiceReducer from "./slices/cashInvoiceSlice";
+import getBankReducer from "./slices/getBankSlice"
 import vehicleExpiryReportReducer from "./slices/vehicleExpiryReportSlice";
 import renewalReminderReducer from "./slices/renewalReminderSlice";
 
@@ -54,9 +55,10 @@ const rootReducer = combineReducers({
   users: userReducer,
   testRates :testRateReducer,
   billingTitle: billingTitleReducer,
-  vehicle: vehicleReducer,
+  report: reportReducer,
   vehicleInvoice: vehicleInvoiceReducer,
   cashInvoice: cashInvoiceReducer,
+  bank:getBankReducer,
   vehicleExpiryReport: vehicleExpiryReportReducer,
   renewalReminder: renewalReminderReducer,
 });

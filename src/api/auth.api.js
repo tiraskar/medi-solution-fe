@@ -56,7 +56,7 @@ export const getUserDetailsById = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       const response = await getApi({
-        url: `https://kq6rzfx3-5000.inc1.devtunnels.ms/api/auth/me`,
+        url: `http://localhost:5000/api/auth/me`,
       });
       // dispatch(getUserPermission(response.user_id)).unwrap().then(res => {
       //     localStorage.setItem('permission', JSON.stringify(res.permission));

@@ -5,6 +5,7 @@ import {
   SettingOutlined,
   TeamOutlined,
   FileTextOutlined,
+  FileExcelOutlined ,
   ExperimentOutlined,
 } from "@ant-design/icons";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -79,6 +80,12 @@ const Sidebar = ({ collapsed }) => {
       key: "/settings",
       icon: <SettingOutlined />,
       label: "Settings",
+      module: null,
+    },
+     {
+      key:PATH.REPORTS,
+      icon: <FileExcelOutlined  />,
+      label: "reports",
       module: null,
     },
   ];
