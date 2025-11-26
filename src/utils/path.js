@@ -40,6 +40,7 @@ export const PATH = {
   INVOICE: "/accounting/invoice",
   CASH_INVOICE: "/accounting/cashinvoice",
   REPORT: "/report",
+
   VEHICLE_EXPIRY_REPORT: "/report/vehicle-expiry-report",
   VEHICLE_RENEWAL_REPORT: "/report/renewal-reminder-report",
   INDIVIDUAL_LEDGER_REPORT: "/report/individual-ledger-report",

@@ -44,7 +44,7 @@ const Sidebar = ({ collapsed }) => {
       ],
     },
     {
-      key: "/billing",
+      key: PATH.TESTBILLING,
       icon: <FileTextOutlined />,
       label: "Billing",
       module: "billing",
@@ -88,6 +88,7 @@ const Sidebar = ({ collapsed }) => {
       label: "reports",
       module: null,
     },
+   
   ];
 
   // ---------------- Filter menu items based on user permission ----------------

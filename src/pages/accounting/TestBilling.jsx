@@ -1,18 +1,22 @@
+
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Select, Table, Card, Spin, message, Radio, Button, Input, Divider, Tag, DatePicker } from "antd";
 import { DeleteOutlined, SaveOutlined, CalculatorOutlined, ClearOutlined, UserOutlined, CalendarOutlined } from "@ant-design/icons";
 import dayjs from 'dayjs';
-import { fetchTestRatesApi, createTestBillApi } from "../../api/testRate.api";
+import { fetchTestRatesApi } from "../../api/testRate.api";
+import { createTestBillApi } from "../../api/testBill.api";
+
 import { fetchTestGroups } from "../../api/testgroup.api";
 import { fetchBanksApi } from "../../api/getBank.api";
 import { getAllPatients } from "../../api/patient.api";
 import PrintBill from "../../components/bill/TestBillPrint";
 
 
+
 const { Option } = Select;
 
-export default function TestBilling() {
+export default function TestBilling({onClose}) {
   const dispatch = useDispatch();
 
   // --- Redux State Selectors ---
@@ -26,7 +30,6 @@ export default function TestBilling() {
   const { testGroups = [] } = useSelector((state) => state.testGroup || {});
   const { banks = [], loading: bankLoading } = useSelector((state) => state.bank || {});
 
-  // 💡 Patient State - तपाईंको patientSlice बाट डाटा लिइयो
   const { 
      patients = [], 
     loading: patientLoading = false 
@@ -50,7 +53,7 @@ export default function TestBilling() {
 
   const [isSaving, setIsSaving] = useState(false);
   const [billToPrint, setBillToPrint] = useState(null);
-
+const [showPrintModal, setShowPrintModal] = useState(false);
   // --- Data Fetching Effect ---
   useEffect(() => {
     dispatch(fetchTestRatesApi());
@@ -210,6 +213,8 @@ export default function TestBilling() {
   const handleSaveBill = async () => {
     if (billingTests.length === 0) {
       message.warning("Cannot save an empty bill. Please select at least one test.");
+ setBillToPrint(printData);
+  setShowPrintModal(true); // open modal instead of direct return
       return;
     }
     
@@ -227,7 +232,7 @@ export default function TestBilling() {
       message.warning("Please select a Bank Ledger for the Bank Payment mode.");
       return;
     }
-
+const tempVoucherNumber = 'VN-' + Date.now();
     const billPayload = {
       // 💡 Patient info now comes from the selected patient object
       patient_info: { 
@@ -235,8 +240,8 @@ export default function TestBilling() {
           name: `${patientInfo.first_name || ''} ${patientInfo.last_name || ''}`.trim(), 
           address: patientInfo.address || "", 
           email: patientInfo.email || "", 
-          age: patientInfo.age || 'N/A', 
-          gender: patientInfo.gender || 'N/A', 
+          age: patientInfo.age || 'N/A', 
+          gender: patientInfo.gender || 'N/A', 
       },
       bill_date: selectedDate.toISOString(), 
       tests_billed: billingTests.map(test => ({ test_id: test.test_id, test_name: test.test_name, rate: parseFloat(test.rate) || 0, qty: 1 })),
@@ -244,7 +249,8 @@ export default function TestBilling() {
       total_amount: totalRate,
       discount_amount: discountAmount,
       net_payable: finalRate,
-      payment_mode: paymentMode,
+      payment_method: paymentMode,
+voucher_number: tempVoucherNumber, 
       bank_ledger_id: paymentMode === "bank" ? selectedBank : null, // Pass ledger ID
       agent_id: selectedAgent,
       doctor_id: selectedDoctor,
@@ -276,15 +282,24 @@ export default function TestBilling() {
     } finally { setIsSaving(false); }
   };
 
-  const handleClosePrint = () => {
-    setBillToPrint(null);
-    handleClear();
-  };
+ 
+const handleClosePrint = () => {
+  setBillToPrint(null);
+  handleClear();  
+     // clear form data
+};
 
-  if (billToPrint) return <PrintBill billData={billToPrint} onClose={handleClosePrint} />;
 
+ if (billToPrint)
+  return (
+    <div className="absolute bottom-0 z-[-50]">
+      <PrintBill billData={billToPrint} onClose={handleClosePrint} />
+    </div>
+  );
   return (
-    <div className="w-full min-h-screen bg-gray-50">
+  
+    <div className="w-full h-150 bg-gray-50">
+  
 
       <style>
         {`
@@ -308,15 +323,16 @@ export default function TestBilling() {
             }
             `}
       </style>
-
-      <Card className="rounded-xl shadow-2xl border border-gray-100 relative print-container" style={{ minHeight: 'calc(100vh - 62px)' }}>
-        {loading && <div className="absolute inset-0 z-20 flex justify-center items-center bg-white/70 rounded-xl"><Spin size="large" tip={isSaving ? "Saving Bill..." : "Loading data..."} /></div>}
+   <Card
+  className="rounded-none shadow-none border-none"
+  bodyStyle={{ padding: '20px' }} 
+>      {loading && <div className="absolute inset-0 z-20 flex justify-center items-center bg-white/70 rounded-xl"><Spin size="large" tip={isSaving ? "Saving Bill..." : "Loading data..."} /></div>}
 
         <div className="mb-4 p-4 bg-white rounded-lg border border-gray-200 shadow-md flex-shrink-0">
           
           {/* Patient Select and Date Picker */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-4">
-            {/*  Patient Selector (uses Redux data) */}
+            {/*  Patient Selector (uses Redux data) */}
             <div className='lg:col-span-2'>
               <label className="block text-gray-800 font-bold text-sm uppercase mb-1 flex items-center"><UserOutlined className="mr-2" /> Select Patient <span className="text-red-500 ml-1">*</span></label>
               <Select
@@ -456,7 +472,6 @@ export default function TestBilling() {
                 size="large"
                 icon={<SaveOutlined />}
                 className="font-bold px-4 h-10 text-base flex-1"
-                // Patient and Date validation check गरियो
                 disabled={loading || billingTests.length === 0 || (paymentMode === "bank" && !selectedBank) || !selectedPatientId || !selectedDate}
                 onClick={handleSaveBill}
               >

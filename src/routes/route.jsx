@@ -35,6 +35,7 @@ import TestList from "../pages/master/TestList";
 import Report from "../pages/reports/Report";
 
 import TestGroupList from "../pages/master/TestGroupList";
+import BillHistory from "../pages/accounting/BillHistory";
 
 
 
@@ -184,7 +185,7 @@ const AppRoute = () => {
               path={PATH.TESTBILLING}
               element={
                 // <PermissionRoute module="billingTitle">
-                <TestBilling />
+                <BillHistory/>
                 //  </PermissionRoute>
               }
             />
@@ -197,6 +198,7 @@ const AppRoute = () => {
                 //  </PermissionRoute>
               }
             />
+          
            
             <Route
               path={PATH.CASH_INVOICE}
@@ -215,6 +217,7 @@ const AppRoute = () => {
                 //  </PermissionRoute>
               }
             />
+             
           <Route path={PATH.REPORT}>
             <Route
               path={PATH.VEHICLE_EXPIRY_REPORT}

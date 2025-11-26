@@ -16,6 +16,7 @@ import doctorReducer from "./slices/doctorSlice"; // ✅ different name
 import agentReducer from "./slices/agentSlice";
 import testRateReducer from "./slices/testRateSlice";
 
+
 import patientReducer from "./slices/patientSlice";
 import categoryReducer from "./slices/categorySlice";
 import masterReducer from "./slices/masterSlice";
@@ -30,6 +31,8 @@ import cashInvoiceReducer from "./slices/cashInvoiceSlice";
 import getBankReducer from "./slices/getBankSlice"
 import vehicleExpiryReportReducer from "./slices/vehicleExpiryReportSlice";
 import renewalReminderReducer from "./slices/renewalReminderSlice";
+import billHistoryReducer  from "./slices/testBillSlice";
+
 
 
 // 👉 custom storage wrapper
@@ -59,6 +62,7 @@ const rootReducer = combineReducers({
   vehicleInvoice: vehicleInvoiceReducer,
   cashInvoice: cashInvoiceReducer,
   bank:getBankReducer,
+  billHistory:billHistoryReducer,
   vehicleExpiryReport: vehicleExpiryReportReducer,
   renewalReminder: renewalReminderReducer,
 });

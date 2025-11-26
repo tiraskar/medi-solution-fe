@@ -52,18 +52,3 @@ export const deleteTestRateApi = createAsyncThunk(
 );
 
 // 💰 NEW THUNK TO SAVE THE BILL TO SQL DATABASE
-export const createTestBillApi = createAsyncThunk(
-  "billing/createBill",
-  async (billPayload, { rejectWithValue }) => {
-    try {
-      // Endpoint typically for saving a new transaction/bill
-      const data = await postApi({ url: "api/master/addBillingInfoDetails", body: billPayload }); 
-      // This toast message will trigger if the request is successful
-      toast.success("Bill saved successfully to SQL database!");
-      return data;
-    } catch (error) {
-      // Ensure you return the proper error message from the backend response
-      return rejectWithValue(error.response?.data?.message || error.message);
-    }
-  }
-);
